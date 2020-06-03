@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MvvmTemplate</string>
+    <string name="first_name">first name</string>
+    <string name="last_name">last name</string>
+    <string name="button_submit">Submit</string>
+
+    <string name="validation_first_name">First name can\'t be empty</string>
+    <string name="validation_last_name">Last name can\'t be empty</string>
+</resources>

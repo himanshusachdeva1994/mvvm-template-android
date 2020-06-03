@@ -1,0 +1,3 @@
+rootProject.name='MvvmTemplate'
+include ':app'
+include ':mvvm-template-lib'
