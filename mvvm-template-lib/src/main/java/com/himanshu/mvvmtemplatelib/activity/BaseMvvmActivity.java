@@ -25,6 +25,7 @@ public abstract class BaseMvvmActivity<VM extends BaseViewModel, VB extends View
         super.onCreate(savedInstanceState);
         binding = getViewBinding();
         viewModel = getViewModel();
+        viewModel.attachCallback(this);
 
         observeOnToastMessages();
     }

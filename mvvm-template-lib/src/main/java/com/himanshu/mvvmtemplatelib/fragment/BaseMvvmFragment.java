@@ -26,6 +26,7 @@ public abstract class BaseMvvmFragment<VM extends BaseViewModel, VB extends View
         super.onCreate(savedInstanceState);
         binding = getViewBinding();
         viewModel = getViewModel();
+        viewModel.attachCallback(this);
     }
 
     @Override
