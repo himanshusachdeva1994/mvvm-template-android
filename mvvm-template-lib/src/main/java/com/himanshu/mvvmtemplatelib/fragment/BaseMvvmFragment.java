@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
+import com.himanshu.mvvmtemplatelib.interfaces.DataBindingViewClickCallbacks;
 import com.himanshu.mvvmtemplatelib.viewmodel.BaseViewModel;
 
 /**
@@ -15,7 +16,7 @@ import com.himanshu.mvvmtemplatelib.viewmodel.BaseViewModel;
  * @created : 04-Jun-2020
  * @email : himanshu.sachdeva1994@gmail.com
  */
-public abstract class BaseMvvmFragment<VM extends BaseViewModel, VB extends ViewDataBinding> extends BaseFragment {
+public abstract class BaseMvvmFragment<VM extends BaseViewModel, VB extends ViewDataBinding> extends BaseFragment implements DataBindingViewClickCallbacks {
 
     protected VM viewModel;
     protected VB binding;
@@ -40,4 +41,8 @@ public abstract class BaseMvvmFragment<VM extends BaseViewModel, VB extends View
     protected abstract VB getViewBinding();
 
     protected abstract VM getViewModel();
+
+    @Override
+    public void onClickEvent(View view) {
+    }
 }
