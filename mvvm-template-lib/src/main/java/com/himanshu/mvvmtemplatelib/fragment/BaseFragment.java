@@ -16,6 +16,7 @@ import com.himanshu.mvvmtemplatelib.interfaces.ItemClickListener;
 public abstract class BaseFragment extends Fragment implements ItemClickListener {
 
     protected Context context;
+    protected final String TAG = getClass().getName();
 
     @Override
     public void onAttach(@NonNull Context context) {

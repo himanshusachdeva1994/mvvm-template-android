@@ -15,6 +15,7 @@ import com.himanshu.mvvmtemplatelib.interfaces.ItemClickListener;
 public abstract class BaseActivity extends AppCompatActivity implements ItemClickListener {
 
     protected Context context = this;
+    protected final String TAG = getClass().getName();
 
     @Override
     public void onItemClick(View view, int position) {
