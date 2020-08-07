@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
  */
 public abstract class BaseRepository {
 
+    protected final String TAG = getClass().getName();
     protected final Context context;
 
     protected MutableLiveData<String> toastMessage = new MutableLiveData<>();
