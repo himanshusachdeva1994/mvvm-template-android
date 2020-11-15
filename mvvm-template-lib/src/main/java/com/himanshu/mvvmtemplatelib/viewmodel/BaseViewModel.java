@@ -10,7 +10,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.himanshu.mvvmtemplatelib.constant.ServiceCallStatusConstants;
 import com.himanshu.mvvmtemplatelib.interfaces.DataBindingViewClickCallbacks;
+
+import java.util.ArrayList;
 
 /**
  * @author : Himanshu Sachdeva
@@ -27,13 +30,17 @@ public abstract class BaseViewModel extends AndroidViewModel {
     protected final MutableLiveData<String> toastMessage = new MutableLiveData<>();
     private final MediatorLiveData<String> combinedToastMessages = new MediatorLiveData<>();
 
+    protected final MediatorLiveData<ServiceCallStatusConstants> combinedServiceCallStatus = new MediatorLiveData<>();
+
     public BaseViewModel(@NonNull Application application) {
         super(application);
         appContext = application.getApplicationContext();
 
         combinedToastMessages.addSource(toastMessage, combinedToastMessages::setValue);
-        attachRepositoryToastMessageLiveData(setRepositoryToastMessage());
+        initRepositoryData();
     }
+
+    protected abstract void initRepositoryData();
 
     public void attachCallback(DataBindingViewClickCallbacks callback) {
         this.callback = callback;
@@ -50,20 +57,37 @@ public abstract class BaseViewModel extends AndroidViewModel {
         super.onCleared();
     }
 
-    private void attachRepositoryToastMessageLiveData(LiveData<String> toastMessage) {
+    protected void attachRepositoryToastMessageLiveData(LiveData<String> toastMessage) {
         if (toastMessage != null) {
             combinedToastMessages.addSource(toastMessage, combinedToastMessages::setValue);
         }
     }
 
-    /**
-     * Override this method to return the repository live data for toastMessage to be attached to View model toastMessage
-     *
-     * @return MutableLiveData<String>
-     */
-    protected abstract LiveData<String> setRepositoryToastMessage();
+    protected void attachRepositoryToastMessageLiveData(ArrayList<LiveData<String>> toastMessages) {
+        if (toastMessages != null && toastMessages.size() > 0) {
+            for (LiveData<String> toastMessage : toastMessages) {
+                combinedToastMessages.addSource(toastMessage, combinedToastMessages::setValue);
+            }
+        }
+    }
+
+    protected void attachRepositoryServiceCallStatusLiveData(LiveData<ServiceCallStatusConstants> serviceCallStatus) {
+        combinedServiceCallStatus.addSource(serviceCallStatus, combinedServiceCallStatus::setValue);
+    }
+
+    protected void attachRepositoryServiceCallStatusLiveData(ArrayList<LiveData<ServiceCallStatusConstants>> serviceCallStatusList) {
+        if (serviceCallStatusList != null && serviceCallStatusList.size() > 0) {
+            for (LiveData<ServiceCallStatusConstants> serviceCallStatus : serviceCallStatusList) {
+                combinedServiceCallStatus.addSource(serviceCallStatus, combinedServiceCallStatus::setValue);
+            }
+        }
+    }
 
     public LiveData<String> getToastMessages() {
         return combinedToastMessages;
+    }
+
+    public LiveData<ServiceCallStatusConstants> getServiceCallStatus() {
+        return combinedServiceCallStatus;
     }
 }

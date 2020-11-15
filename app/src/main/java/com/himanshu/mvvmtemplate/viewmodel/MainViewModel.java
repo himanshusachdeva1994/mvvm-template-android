@@ -4,7 +4,6 @@ import android.app.Application;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 import com.himanshu.mvvmtemplate.R;
 import com.himanshu.mvvmtemplate.model.screenstate.MainScreenState;
@@ -26,9 +25,10 @@ public class MainViewModel extends BaseViewModel {
     }
 
     @Override
-    protected LiveData<String> setRepositoryToastMessage() {
+    protected void initRepositoryData() {
         mainRepository = new MainRepository(appContext);
-        return mainRepository.getToastMessage();
+        attachRepositoryToastMessageLiveData(mainRepository.getToastMessage());
+        attachRepositoryServiceCallStatusLiveData(mainRepository.getServiceCallStatus());
     }
 
     public MainScreenState getScreenState() {
@@ -43,16 +43,14 @@ public class MainViewModel extends BaseViewModel {
     public void onClicked(View view) {
         super.onClicked(view);
 
-        switch (view.getId()) {
-            case R.id.btn_submit:
-                if (screenState.getFirstName() == null || screenState.getFirstName().isEmpty()) {
-                    toastMessage.setValue(appContext.getString(R.string.validation_first_name));
-                } else if (screenState.getLastName() == null || screenState.getLastName().isEmpty()) {
-                    toastMessage.setValue(appContext.getString(R.string.validation_last_name));
-                } else {
-                    mainRepository.sendDataToServer(screenState.getFirstName(), screenState.getLastName());
-                }
-                break;
+        if (view.getId() == R.id.btn_submit) {
+            if (screenState.getFirstName() == null || screenState.getFirstName().isEmpty()) {
+                toastMessage.setValue(appContext.getString(R.string.validation_first_name));
+            } else if (screenState.getLastName() == null || screenState.getLastName().isEmpty()) {
+                toastMessage.setValue(appContext.getString(R.string.validation_last_name));
+            } else {
+                mainRepository.sendDataToServer(screenState.getFirstName(), screenState.getLastName());
+            }
         }
     }
 }
